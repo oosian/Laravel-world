@@ -9,11 +9,22 @@
       "email": "OSianMRRM@gmail.com"
     }
   ],
+  
   "minimum-stability": "dev",
   "require": {},
   "autoload": {
     "psr-4": {
       "Oosian\\LaravelWorld\\": "src/"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+        "dev-master": "2.0-dev"
+    },
+    "laravel": {
+        "providers": [
+            "Oosian\\LaravelWorld\\WorldServiceProvider"
+        ]
     }
   }
 }
