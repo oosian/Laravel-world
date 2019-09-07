@@ -1,0 +1,19 @@
+{
+  "name": "oosian/laravel-world",
+  "description": "this will send email to admin & save contact in db",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "oosian",
+      "email": "OSianMRRM@gmail.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {},
+  "autoload": {
+    "psr-4": {
+      "Oosian\\LaravelWorld\\": "src/"
+    }
+  }
+}
