@@ -4,7 +4,7 @@ namespace Oosian\LaravelWorld;
 
 use Illuminate\Database\Eloquent\Factory as EloquentFactory;
 
-class ContactServiceProvider extends \Illuminate\Support\ServiceProvider
+class WorldServiceProvider extends \Illuminate\Support\ServiceProvider
 {
     /**
      * Register factories.

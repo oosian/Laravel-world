@@ -3,7 +3,7 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 use Illuminate\Support\Str;
 use Faker\Generator as Faker;
-use Oosian\Contact\Models\Country;
+use Oosian\LaravelWorld\Models\Country;
 
 $factory->define(Country::class, function (Faker $faker) {
     return [

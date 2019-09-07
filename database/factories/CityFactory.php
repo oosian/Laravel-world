@@ -3,8 +3,8 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 use Illuminate\Support\Str;
 use Faker\Generator as Faker;
-use Oosian\Contact\Models\City;
-use Oosian\Contact\Models\State as State;
+use Oosian\LaravelWorld\Models\City;
+use Oosian\LaravelWorld\Models\State;
 
 $factory->define(City::class, function (Faker $faker) use ($factory) {
     return [
