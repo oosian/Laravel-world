@@ -5,6 +5,7 @@ namespace Oosian\LaravelWorld;
 use DB;
 use Oosian\LaravelWorld\Models\City;
 use Oosian\LaravelWorld\Models\State;
+use Illuminate\Database\Eloquent\Model;
 use Oosian\LaravelWorld\Models\Country;
 
 //todo add
@@ -18,7 +19,7 @@ class World
      *
      * @return void
      */
-    public function insertCountry($record)
+    public function insertCountry(array $record)
     {
         return Country::create($record);
     }
@@ -31,9 +32,9 @@ class World
      *
      * @return void
      */
-    public function insertState($record)
+    public function insertState(array $record)
     {
-        return State::create($record);            ;
+        return State::create($record);
     }
 
     /**
@@ -43,9 +44,9 @@ class World
      *
      * @return void
      */
-    public function insertCity($record)
+    public function insertCity(array $record)
     {
-        return City::create($record);            ;
+        return City::create($record);
     }
 
     /**
@@ -56,7 +57,7 @@ class World
      *
      * @return [1 for success | exception for failure ]
      */
-    public function bulkInsert($records, $model)
+    public function bulkInsert(array $records, Model $model)
     {
         try {
             DB::beginTransaction();
@@ -76,7 +77,7 @@ class World
      *
      * @return [1 for success | exception for failure ]
      */
-    public function bulkInsertCountries($records)
+    public function bulkInsertCountries(array $records)
     {
         $this->bulkInsert($records, Country::class);
     }
@@ -88,7 +89,7 @@ class World
      *
      * @return [1 for success | exception for failure ]
      */
-    public function bulkInsertStates($records)
+    public function bulkInsertStates(array $records)
     {
         $this->bulkInsert($records, State::class);
     }
@@ -100,7 +101,7 @@ class World
      *
      * @return [1 for success | exception for failure ]
      */
-    public function bulkInsertCities($records)
+    public function bulkInsertCities(array $records)
     {
         $this->bulkInsert($records, City::class);
     }
@@ -112,7 +113,7 @@ class World
      *
      * @return void
      */
-    public function getCountries($id = null)
+    public function getCountries(int $id = null)
     {
         if (\is_null($id))
             return Country::all();
@@ -128,7 +129,7 @@ class World
      *
      * @return void
      */
-    public function getStates($id = null)
+    public function getStates(int $id = null)
     {
         if (\is_null($id))
             return State::all();
@@ -143,7 +144,7 @@ class World
      *
      * @return void
      */
-    public function getCities($id = null)
+    public function getCities(int $id = null)
     {
         if (\is_null($id))
             return City::all();
@@ -197,8 +198,7 @@ class World
      */
     public function deleteCountryById(int ...$id)
     {
-        //todo db exception handling
-        return Country::where('id', $id)->delete();            ;
+        return Country::where('id', $id)->delete();
     }
 
     /**
@@ -209,8 +209,8 @@ class World
      *
      * @return [1 for success | 0 for failure ]
      */
-    public function updateCountries($conditions, $updates)
+    public function updateCountries(array $conditions, array $updates)
     {
-        return Country::where($conditions)->update($updates);            ;
+        return Country::where($conditions)->update($updates);
     }
 }
