@@ -52,21 +52,33 @@ class World
      * bulkInsertCountries function
      *
      * @param [array of associative arrays] $records
+     * @param Model $model
      *
-     * @return [1 for success | 0 for failure ]
+     * @return [1 for success | exception for failure ]
      */
-    public function bulkInsertCountries(...$records)
+    public function bulkInsert($records, $model)
     {
-        DB::beginTransaction();
-        foreach ($records as  $record) {
-            $created = Country::create($record);
-            if(is_null($created)){
-                DB::rollback();
-                return 0;
-            }    
+        try {
+            DB::beginTransaction();
+            $created = $model::insert($records);
+        } catch(\Exception $exception) {
+            DB::rollback();
+            throw $exception;
         }
         DB::commit();
         return 1;
+    }
+
+    /**
+     * bulkInsertCountries function
+     *
+     * @param [array of associative arrays] $records
+     *
+     * @return [1 for success | exception for failure ]
+     */
+    public function bulkInsertCountries($records)
+    {
+        $this->bulkInsert($records, Country::class);
     }
 
      /**
@@ -74,20 +86,11 @@ class World
      *
      * @param [array of associative arrays] $records
      *
-     * @return [1 for success | 0 for failure ]
+     * @return [1 for success | exception for failure ]
      */
-    public function bulkInsertStates(...$records)
+    public function bulkInsertStates($records)
     {
-        DB::beginTransaction();
-        foreach ($records as  $record) {
-            $created = State::create($record);
-            if(is_null($created)){
-                DB::rollback();
-                return 0;
-            }    
-        }
-        DB::commit();
-        return 1;
+        $this->bulkInsert($records, State::class);
     }
 
      /**
@@ -95,20 +98,11 @@ class World
      *
      * @param [array of associative arrays] $records
      *
-     * @return [1 for success | 0 for failure ]
+     * @return [1 for success | exception for failure ]
      */
-    public function bulkInsertCities(...$records)
+    public function bulkInsertCities($records)
     {
-        DB::beginTransaction();
-        foreach ($records as  $record) {
-            $created = City::create($record);
-            if(is_null($created)){
-                DB::rollback();
-                return 0;
-            }    
-        }
-        DB::commit();
-        return 1;
+        $this->bulkInsert($records, City::class);
     }
 
     /**
@@ -118,7 +112,7 @@ class World
      *
      * @return void
      */
-    public function getCountries($id=null)
+    public function getCountries($id = null)
     {
         if (\is_null($id))
             return Country::all();
@@ -134,7 +128,7 @@ class World
      *
      * @return void
      */
-    public function getStates($id=null)
+    public function getStates($id = null)
     {
         if (\is_null($id))
             return State::all();
@@ -149,7 +143,7 @@ class World
      *
      * @return void
      */
-    public function getCities($id=null)
+    public function getCities($id = null)
     {
         if (\is_null($id))
             return City::all();
@@ -204,7 +198,7 @@ class World
     public function deleteCountryById(int ...$id)
     {
         //todo db exception handling
-        return Country::where('id',$id)->delete();            ;
+        return Country::where('id', $id)->delete();            ;
     }
 
     /**
