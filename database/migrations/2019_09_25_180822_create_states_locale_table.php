@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCitiesTable extends Migration
+class CreateStatesLocaleTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,16 @@ class CreateCitiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('cities', function (Blueprint $table) {
+        Schema::create('states_locale', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name')->unique();
-            $table->unsignedBigInteger('state_id')->nullable();
+            $table->unsignedBigInteger('state_id');
+            $table->string('state_locale_name');
+            $table->string('locale');
             $table->timestamps();
-
-
+           
             $table->foreign('state_id')
                 ->on('states')->references('id')
-                ->onUpdate('cascade')->onDelete('set null');
+                ->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
@@ -33,9 +33,10 @@ class CreateCitiesTable extends Migration
      */
     public function down()
     {
-        Schema::table('cities', function (Blueprint $table) {
+        Schema::table('states_locale',function (Blueprint $table)
+        {
             $table->dropForeign(['state_id']);
         });
-        Schema::dropIfExists('cities');
+        Schema::dropIfExists('states_locale');
     }
 }
