@@ -4,12 +4,12 @@ namespace Oosian\LaravelWorld;
 
 use Illuminate\Database\Eloquent\Factory as EloquentFactory;
 
-class WorldServiceProvider extends \Illuminate\Support\ServiceProvider
+class WorldServiceProdvider extends \Illuminate\Support\ServiceProvider
 {
     /**
      * Register factories.
      *
-     * @param  string  $path
+     * @param  strinWorldServiceProdviderg  $path
      * @return void
      */
     protected function loadEloquentFactoriesFrom($path)

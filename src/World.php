@@ -2,22 +2,19 @@
 
 namespace Oosian\LaravelWorld;
 
-use DB;
+use Illuminate\Support\Facades\DB;
 use Oosian\LaravelWorld\Models\City;
 use Oosian\LaravelWorld\Models\State;
 use Illuminate\Database\Eloquent\Model;
 use Oosian\LaravelWorld\Models\Country;
 
-//todo add
 class World
 {
 
     /**
      * insertCountry function
-     *
      * @param [associative array] $record
-     *
-     * @return void
+     * @return mixed
      */
     public function insertCountry(array $record)
     {
@@ -30,7 +27,7 @@ class World
      *
      * @param [associative array] $record
      *
-     * @return void
+     * @return mixed
      */
     public function insertState(array $record)
     {
@@ -42,32 +39,11 @@ class World
      *
      * @param [associative array] $record
      *
-     * @return void
+     * @return mixed
      */
     public function insertCity(array $record)
     {
         return City::create($record);
-    }
-
-    /**
-     * bulkInsertCountries function
-     *
-     * @param [array of associative arrays] $records
-     * @param Model $model
-     *
-     * @return [1 for success | exception for failure ]
-     */
-    public function bulkInsert(array $records, Model $model)
-    {
-        try {
-            DB::beginTransaction();
-            $created = $model::insert($records);
-        } catch(\Exception $exception) {
-            DB::rollback();
-            throw $exception;
-        }
-        DB::commit();
-        return 1;
     }
 
     /**
@@ -82,7 +58,28 @@ class World
         $this->bulkInsert($records, Country::class);
     }
 
-     /**
+    /**
+     * bulkInsertCountries function
+     *
+     * @param [array of associative arrays] $records
+     * @param Model $model
+     *
+     * @return [1 for success | exception for failure ]
+     */
+    public function bulkInsert(array $records, Model $model)
+    {
+        try {
+            DB::beginTransaction();
+            $model::insert($records);
+        } catch (\Exception $exception) {
+            DB::rollback();
+            throw $exception;
+        }
+        DB::commit();
+        return 1;
+    }
+
+    /**
      * bulkInsertStates function
      *
      * @param [array of associative arrays] $records
@@ -94,7 +91,7 @@ class World
         $this->bulkInsert($records, State::class);
     }
 
-     /**
+    /**
      * bulkInsertCities function
      *
      * @param [array of associative arrays] $records
@@ -111,7 +108,7 @@ class World
      *
      * @param [int|null] $id
      *
-     * @return void
+     * @return mixed
      */
     public function getCountries(int $id = null)
     {
@@ -119,15 +116,27 @@ class World
             return Country::all();
 
         return $this->getCountryById($id);
-    
-    }    
-    
+
+    }
+
+    /**
+     * getCountryById function
+     *
+     * @param integer ...$id
+     *
+     * @return mixed
+     */
+    public function getCountryById(int ...$id)
+    {
+        return Country::findOrFail($id);
+    }
+
     /**
      * getCountries function
      *
      * @param [int|null] $id
      *
-     * @return void
+     * @return mixed
      */
     public function getStates(int $id = null)
     {
@@ -136,13 +145,25 @@ class World
 
         return $this->getStateById($id);
     }
-    
+
+    /**
+     * getStateById function
+     *
+     * @param integer ...$id
+     *
+     * @return mixed
+     */
+    public function getStateById(int ...$id)
+    {
+        return State::findOrFail($id);
+    }
+
     /**
      * getCities function
      *
      * @param [int|null] $id
      *
-     * @return void
+     * @return mixed
      */
     public function getCities(int $id = null)
     {
@@ -153,40 +174,57 @@ class World
     }
 
     /**
-     * getCountryById function
-     *
-     * @param integer ...$id
-     *
-     * @return void
-     */
-    public function getCountryById(int ...$id)
-    {    
-        return Country::findOrFail($id);
-    }
-
-    /**
-     * getStateById function
-     *
-     * @param integer ...$id
-     *
-     * @return void
-     */
-    public function getStateById(int ...$id)
-    {    
-        return State::findOrFail($id);
-    }
-
-
-    /**
      * getCityById function
      *
      * @param integer ...$id
      *
-     * @return void
+     * @return mixed
      */
     public function getCityById(int ...$id)
-    {    
+    {
         return City::findOrFail($id);
+    }
+
+    /**
+     * get model data by name
+     * @param $model
+     * @param $name
+     * @return mixed
+     */
+    public function getModelByName($model, $name)
+    {
+        return $model::where('name', "=", $name)->get();
+    }
+
+    /**
+     * get City data by name
+     * @param $name
+     * @return mixed
+     */
+    public function getCityByName($name)
+    {
+        return $this->getModelByName('City', $name);
+    }
+
+    /**
+     * get Country data by name
+     * @param $name
+     * @return mixed
+     */
+    public function getCountryByName($name)
+    {
+        return $this->getModelByName('Country', $name);
+    }
+
+
+    /**
+     * get State data by name
+     * @param $name
+     * @return mixed
+     */
+    public function getStateByName($name)
+    {
+        return $this->getModelByName('State', $name);
     }
 
     /**
