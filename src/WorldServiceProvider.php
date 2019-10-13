@@ -4,7 +4,7 @@ namespace Oosian\LaravelWorld;
 
 use Illuminate\Database\Eloquent\Factory as EloquentFactory;
 
-class WorldServiceProdvider extends \Illuminate\Support\ServiceProvider
+class WorldServiceProvider extends \Illuminate\Support\ServiceProvider
 {
     /**
      * Register factories.
@@ -20,8 +20,8 @@ class WorldServiceProdvider extends \Illuminate\Support\ServiceProvider
     public function boot()
     {
         $this->loadRoutesFrom(__DIR__ . "/routes/web.php");
-        $this->loadMigrationsFrom(__DIR__.'/../database/migrations/');
-        $this->loadEloquentFactoriesFrom(__DIR__.'/../database/factories/');
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations/');
+        $this->loadEloquentFactoriesFrom(__DIR__ . '/../database/factories/');
     }
 
     public function register()

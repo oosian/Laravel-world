@@ -8,6 +8,7 @@ use Oosian\LaravelWorld\Models\State;
 use Illuminate\Database\Eloquent\Model;
 use Oosian\LaravelWorld\Models\Country;
 
+//todo handle thrown exceptions
 class World
 {
 
@@ -20,7 +21,6 @@ class World
     {
         return Country::create($record);
     }
-
 
     /**
      * insertState function
@@ -47,26 +47,14 @@ class World
     }
 
     /**
-     * bulkInsertCountries function
+     * bulkInsert function
      *
      * @param [array of associative arrays] $records
+     * @param $model
      *
      * @return [1 for success | exception for failure ]
      */
-    public function bulkInsertCountries(array $records)
-    {
-        $this->bulkInsert($records, Country::class);
-    }
-
-    /**
-     * bulkInsertCountries function
-     *
-     * @param [array of associative arrays] $records
-     * @param Model $model
-     *
-     * @return [1 for success | exception for failure ]
-     */
-    public function bulkInsert(array $records, Model $model)
+    public function bulkInsert(array $records, $model)
     {
         try {
             DB::beginTransaction();
@@ -77,6 +65,18 @@ class World
         }
         DB::commit();
         return 1;
+    }
+
+    /**
+     * bulkInsertCountries function
+     *
+     * @param [array of associative arrays] $records
+     *
+     * @return [1 for success | exception for failure ]
+     */
+    public function bulkInsertCountries(array $records)
+    {
+        $this->bulkInsert($records, Country::class);
     }
 
     /**
@@ -132,7 +132,7 @@ class World
     }
 
     /**
-     * getCountries function
+     * getStates function
      *
      * @param [int|null] $id
      *
@@ -197,34 +197,33 @@ class World
     }
 
     /**
-     * get City data by name
+     * get Cities data by name
      * @param $name
      * @return mixed
      */
-    public function getCityByName($name)
+    public function getCitiesByName($name)
     {
-        return $this->getModelByName('City', $name);
+        return $this->getModelByName(City::class, $name);
+    }
+
+    /*
+     * get Countries data by name
+     * @param $name
+     * @return mixed
+     */
+    public function getCountriesByName($name)
+    {
+        return $this->getModelByName(Country::class, $name);
     }
 
     /**
-     * get Country data by name
+     * get States data by name
      * @param $name
      * @return mixed
      */
-    public function getCountryByName($name)
+    public function getStatesByName($name)
     {
-        return $this->getModelByName('Country', $name);
-    }
-
-
-    /**
-     * get State data by name
-     * @param $name
-     * @return mixed
-     */
-    public function getStateByName($name)
-    {
-        return $this->getModelByName('State', $name);
+        return $this->getModelByName(State::class, $name);
     }
 
     /**
